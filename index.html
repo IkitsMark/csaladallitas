@@ -11,8 +11,8 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg"
-        :class="navbarClasses">
+    <nav 
+        :class="[`navbar-${theme}`, `bg-${theme}`, `navbar`, `navbar-expand-lg`]">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Csalládállítás Veszprém</a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -25,19 +25,18 @@
             </ul>
             <form class="d-flex">
                 <button class="btn btn-primary"
-                @click.prevent="useDarkNavbar = !useDarkNavbar">Sötét Mód
+                @click.prevent="changeTheme()">Mód Váltás
             </button>
             </form>
         </div>
     </nav>
-    <div id="content" class="container">
-        <h1>{{ pages[activePage].pageTitle}}</h1>
-        <p>{{ pages[activePage].content}}</p>
-    </div>
+
+    <page-viewer 
+    :page="pages[activePage]"></page-viewer>
 
     <script>
-        Vue.createApp({
-            computed: {
+        let app = Vue.createApp({
+           /*  computed: {
                 navbarClasses(){
                     return {
                         'navbar-light': !this.useDarkNavbar,
@@ -46,11 +45,11 @@
                         'bg-dark': this.useDarkNavbar
                     }
                 }
-            },
+            }, */
             data() {
                 return {
                     activePage: 0,
-                    useDarkNavbar: true,
+                    theme: 'light',
                     pages: [
                         {
                             link: { text: 'Főoldal', url: 'home.html' },
@@ -69,8 +68,30 @@
                         },
                     ]
                 };
+            },
+            methods:{
+                changeTheme(){
+                    let theme = 'light';
+
+                    if(this.theme == 'light'){
+                        theme = 'dark';
+                    }
+                    this.theme = theme;
+                }
             }
-        }).mount('body');
+        })
+        
+        app.component('page-viewer', {
+            props: ['page'],
+            template: `
+                <div class="container">
+                    <h1>{{page.pageTitle}}</h1>
+                    <p>{{page.content}}</p>
+                </div>
+            `
+        });
+
+        app.mount('body');
     </script>
 </body>
 </html>
