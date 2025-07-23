@@ -1,0 +1,1 @@
+<template><div><h1>Fő Oldal</h1><p>Ez itt a főoldal.</p></div></template>

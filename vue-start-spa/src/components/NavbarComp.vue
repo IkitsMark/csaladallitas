@@ -3,17 +3,15 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Csalládállítás Veszprém</a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li v-for="(page, index) in pages" class="nav-item" :key="index">
-
-                    <navbar-link :page="page" :isActive="activePage === index" @click.prevent="navLinkClick(index)">
-
-                    </navbar-link>
-
-
+                <li class='nav-item' v-for="page in pages" :key="page.link.url">
+                    <router-link :to="page.link.url" class='nav-link' active-class="active"
+                        :title="`Ez a gomb a ${page.link.text}-ra/re navigál.`">
+                        {{ page.link.text }}
+                    </router-link>
                 </li>
             </ul>
             <form class="d-flex">
-                <button class="btn btn-primary" @click.prevent="changeTheme()">Mód Váltás
+                <button class="btn btn-primary" @click.prevent="$emit('toggle-theme')">Mód Váltás
                 </button>
             </form>
         </div>
@@ -21,27 +19,19 @@
 </template>
 
 <script>
-import NavbarLink from './NavbarLink.vue';
 
 export default {
-    components: {
-        NavbarLink
+    props: {
+        theme: String
     },
-    props: ['pages', 'activePage', 'navLinkClick'],
     data() {
         return {
-            theme: 'light',
-        }
-    },
-    methods: {
-        changeTheme() {
-            let theme = 'light';
-
-            if (this.theme == 'light') {
-                theme = 'dark';
-            }
-            this.theme = theme;
+            pages: [
+                { link: { text: 'Főoldal', url: '/' } },
+                { link: { text: 'Kapcsolat', url: '/contact' } },
+                { link: { text: 'Rólam', url: '/about' } }
+            ]
         }
     }
-}
+};
 </script>

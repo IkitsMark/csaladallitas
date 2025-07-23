@@ -1,0 +1,1 @@
+<template><div><h1>Kapcsolat</h1><p>A kapcsolatokat tartalmazó oldal.</p></div></template>
